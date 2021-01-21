@@ -157,3 +157,43 @@ export const updateBook = async (req, res) => {
     }
 
 }
+
+
+/**
+ * Book Delete.
+ * 
+ * @param {string}      id
+ * 
+ * @returns {Object}
+ */
+
+
+export const deleteBook = async (req, res) => {
+    const id = req.params.bookId
+    var isValid = mongoose.Types.ObjectId.isValid(id)
+    if (!isValid) {
+        return validationError(res, 'Book id is not valid')
+
+    }
+    try {
+
+        await Book.findById(id, (err, book) => {
+            if (!book || book === undefined || book === null) {
+                return notFound(res, "Book not exists with this id");
+            } else {
+                await Book.deleteOne({ "_id": id }, (err, result) => {
+                    if (err) {
+                        return validationError(res, err)
+
+                    } else {
+
+                        return success(res, 'Book deleted successfully', result)
+                    }
+                })
+            }
+        })
+
+    } catch (error) {
+        return errorResponse(res, error);
+    }
+}
