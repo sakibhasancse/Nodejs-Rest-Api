@@ -65,3 +65,44 @@ export const bookList = async (req, res) => {
         return errorResponse(res, error)
     }
 };
+
+
+
+/**
+ * single Book Details
+ *
+ *@param{string} id
+ *
+ *@returs {Object}
+ */
+
+export const singleBook = async (req, res) => {
+    const id = req.param.bookId
+    var isValid = mongoose.Types.ObjectId.isValid(id)
+    if (!isValid) {
+        return validationError(res, 'Book id is not valid')
+
+    }
+    try {
+
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return validationError(res, 'validation Error', errors.array())
+        }
+
+
+        await Book.findById(id, (err, book) => {
+            if (err) {
+                //throw error in json response with status 400. 
+
+                return validationError(res, err)
+            } else {
+                return success(res, 'Single Book', book)
+            }
+        })
+
+    } catch (error) {
+        //throw error in json response with status 500. 
+        return errorResponse(res, error);
+    }
+}
