@@ -25,6 +25,9 @@ app.use(bodyparser.urlencoded({ extended: false }))
 //To allow cross-origin requests
 app.use(cors())
 
+import bookRoute from './src/routers/book'
+
+app.use('/api/v1', bookRoute)
 
 // DB connection
 dbconnect(process.env.DB_URL)

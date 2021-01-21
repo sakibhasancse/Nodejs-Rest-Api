@@ -10,8 +10,9 @@ const Book = new mongoose.Schema({
     },
     author: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
+        required: [true, 'Please add author ID'],
+        ref: 'User',
+
     },
     publisher: {
         type: String
