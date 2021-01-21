@@ -106,3 +106,54 @@ export const singleBook = async (req, res) => {
         return errorResponse(res, error);
     }
 }
+
+
+
+/**
+ * Book update.
+ * 
+ * @param {string}      name 
+ * @param {string}      authors
+ * @param {string}      publisher
+ * 
+ * @returns {Object}
+ */
+
+export const updateBook = async (req, res) => {
+    const id = req.params.bookId
+    var isValid = mongoose.Types.ObjectId.isValid(id)
+    if (!isValid) {
+        return validationError(res, 'Book id is not valid')
+
+    }
+    try {
+
+        const { name, authors, publisher } = req.body
+
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+            return validationError(res, 'validation Error', errors.array())
+        } else {
+            await Book.findById(id, (err, book) => {
+                if (!book || book === undefined || book === null) {
+                    return notFound(res, "Book not exists with this id");
+                } else {
+                    await Book.updateOne({ "_id": id }, { $set: { name, authors, publisher } }, (err, result) => {
+                        if (err) {
+                            return validationError(res, err)
+                        } else {
+                            return success(res, 'Book update successfully', result)
+                        }
+                    })
+                }
+            })
+
+        }
+
+    } catch (error) {
+        return errorResponse(res, error);
+
+    }
+
+}
