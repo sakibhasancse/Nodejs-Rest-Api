@@ -8,7 +8,7 @@ const Book = new mongoose.Schema({
         min: [2, 'Book Name can not be less then 2 characters'],
         maxlength: [100, 'Book Name can not be more then 100 characters']
     },
-    author: {
+    authors: {
         type: mongoose.Schema.Types.ObjectId,
         required: [true, 'Please add author ID'],
         ref: 'User',

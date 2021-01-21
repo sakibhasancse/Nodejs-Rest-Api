@@ -1,4 +1,4 @@
-import { errorResponse, notFound, success, validationError } from '../helpers/apiResponse'
+import { errorResponse, notFound, success, validationError, validationErrorWithData, successWithData } from '../helpers/apiResponse'
 import Book from '../models/book'
 import mongoose from 'mongoose'
 import { validationResult } from 'express-validator'
@@ -16,24 +16,30 @@ import { validationResult } from 'express-validator'
 
 
 export const createBook = async (req, res) => {
+    const { name, authors, publisher } = req.body
     try {
-        const { name, authors, publisher } = req.body
-        const errors = validationError(req)
+        const errors = validationResult(req)
+
         if (!errors.isEmpty()) {
-            return validationError(res, 'Validation Error', errors.array())
+            return validationErrorWithData(res, 'Validation error', errors.array())
         }
-        const newBook = new Book(name, authors, publisher)
+
+        const newBook = new Book({ name, authors, publisher })
         await newBook.save((err, book) => {
             if (err) {
-                //throw error in json response with status 400. 
 
+                //throw error in json response with status 400. 
                 return validationError(res, err)
             } else {
-                return success(res, 'Book Created successfully', book)
+
+                return success(res, 'Book Created successfully')
+
             }
 
         })
     } catch (error) {
+        console.log(error)
+
         return errorResponse(res, error);
     }
 
@@ -47,7 +53,7 @@ export const createBook = async (req, res) => {
  * 
  * @returns {Object}
  */
-export const bookList = async (req, res) => {
+export const BookList = async (req, res) => {
     try {
         await Book.find((err, book) => {
             if (err) {
@@ -55,7 +61,7 @@ export const bookList = async (req, res) => {
 
                 return validationError(res, err)
             } else {
-                return success(res, 'All Books', book)
+                return successWithData(res, 'All Books', book)
             }
         })
 
@@ -77,8 +83,9 @@ export const bookList = async (req, res) => {
  */
 
 export const singleBook = async (req, res) => {
-    const id = req.param.bookId
+    const id = req.params.bookId
     var isValid = mongoose.Types.ObjectId.isValid(id)
+
     if (!isValid) {
         return validationError(res, 'Book id is not valid')
 
@@ -97,7 +104,7 @@ export const singleBook = async (req, res) => {
 
                 return validationError(res, err)
             } else {
-                return success(res, 'Single Book', book)
+                return successWithData(res, 'Single Book', book)
             }
         })
 
@@ -128,22 +135,20 @@ export const updateBook = async (req, res) => {
     }
     try {
 
-        const { name, authors, publisher } = req.body
-
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) {
-            return validationError(res, 'validation Error', errors.array())
+            return validationErrorWithData(res, 'validation Error', errors.array().message)
         } else {
             await Book.findById(id, (err, book) => {
                 if (!book || book === undefined || book === null) {
                     return notFound(res, "Book not exists with this id");
                 } else {
-                    await Book.updateOne({ "_id": id }, { $set: { name, authors, publisher } }, (err, result) => {
+                    Book.findByIdAndUpdate(id, req.body, (err, result) => {
                         if (err) {
                             return validationError(res, err)
                         } else {
-                            return success(res, 'Book update successfully', result)
+                            return success(res, 'Book update successfully')
                         }
                     })
                 }
@@ -162,7 +167,7 @@ export const updateBook = async (req, res) => {
 /**
  * Book Delete.
  * 
- * @param {string}      id
+ * @param {string}  id
  * 
  * @returns {Object}
  */
@@ -181,13 +186,13 @@ export const deleteBook = async (req, res) => {
             if (!book || book === undefined || book === null) {
                 return notFound(res, "Book not exists with this id");
             } else {
-                await Book.deleteOne({ "_id": id }, (err, result) => {
+                Book.deleteOne({ "_id": id }, (err, result) => {
                     if (err) {
                         return validationError(res, err)
 
                     } else {
 
-                        return success(res, 'Book deleted successfully', result)
+                        return success(res, 'Book deleted successfully')
                     }
                 })
             }
