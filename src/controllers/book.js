@@ -4,6 +4,17 @@ import mongoose from 'mongoose'
 import { validationResult } from 'express-validator'
 
 
+/**
+ * Create Book.
+ *
+ * @param {string}      name
+ * @param {string}      authors
+ * @param {string}      publisher
+ *
+ * @returns {Object}
+ */
+
+
 export const createBook = async (req, res) => {
     try {
         const { name, authors, publisher } = req.body
@@ -28,3 +39,29 @@ export const createBook = async (req, res) => {
 
 
 }
+
+
+
+/**
+ * Book List.
+ * 
+ * @returns {Object}
+ */
+export const bookList = async (req, res) => {
+    try {
+        await Book.find((err, book) => {
+            if (err) {
+                //throw error in json response with status 400. 
+
+                return validationError(res, err)
+            } else {
+                return success(res, 'All Books', book)
+            }
+        })
+
+
+    } catch (error) {
+        //throw error in json response with status 500. 
+        return errorResponse(res, error)
+    }
+};
