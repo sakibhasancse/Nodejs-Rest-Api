@@ -1,6 +1,7 @@
-// const { server } = require('./testConfig')
+const { server, request } = require('./testConfig')
 
-
+import app from '../app'
+import Book from '../src/models/book'
 
 /**
   *Test cases to test all the book API
@@ -9,9 +10,41 @@
   * get single book
   * update book
   * delete book
+  * create book
 */
 
 
-test('should work', async () => {
-  console.log('jest mocha test')
+describe('Book Test', () => {
+  // Before each test we empty the database
+
+  beforeAll(async () => {
+    await Book.deleteMany({}, (err) => {
+      // 
+    })
+  });
+
+  // Prepare data for testings
+  const testData = {
+    "name": "Test Book Name",
+    "authors": "5fc8dcd114d0523b984c08d5",
+    "publisher": "Test Publisher"
+  }
+
+
+  /*
+    * Test the /POST Router
+    */
+
+  describe('/POST Book Store with Empty body', () => {
+    test('it should send validation error for save book', async () => {
+      await request(app).post('/api/book')
+        .send()
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(400)
+    })
+  })
+
+
+
 })

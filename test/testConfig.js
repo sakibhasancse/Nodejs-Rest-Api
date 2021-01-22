@@ -3,6 +3,7 @@
 process.env.NODE_ENV = 'test';
 
 const app = require('../app')
+import request from 'supertest'
 
 
 // Export this to use in multiple files
@@ -10,5 +11,6 @@ const app = require('../app')
 module.exports = {
 
     server: app,
+    request
 
 }

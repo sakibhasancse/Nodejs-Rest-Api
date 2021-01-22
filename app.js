@@ -28,7 +28,7 @@ app.use(cors())
 import bookRoute from './src/routers/book'
 import { notFound } from './src/helpers/apiResponse'
 
-app.use('/api/v1', bookRoute)
+app.use('/api', bookRoute)
 app.all("*", (req, res) => {
     return notFound(res, 'Page Not Found')
 })
