@@ -1,5 +1,6 @@
+const { app, request } = require('./testConfig')
 
-import app from '../app'
+
 import Book from '../src/models/book'
 
 /**
@@ -56,7 +57,7 @@ describe('Book Test', () => {
         .send(testData)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(200);
     })
   })
 
@@ -100,7 +101,7 @@ describe('Book Test', () => {
         .send(testData)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(200)
+        .expect(200,)
     })
   })
 
