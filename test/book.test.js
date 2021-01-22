@@ -45,6 +45,24 @@ describe('Book Test', () => {
     })
   })
 
+  /*
+  * Test the /POST Router
+  */
+
+  describe('/POST Book Store', () => {
+    test('it should success save book', async () => {
+      await request(app)
+        .post('/api/book')
+        .send(testData)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+    })
+  })
+
+
+
+
 
 
 })
