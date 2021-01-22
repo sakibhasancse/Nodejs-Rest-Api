@@ -60,6 +60,24 @@ describe('Book Test', () => {
     })
   })
 
+  /*
+ * Test the /GET route
+ */
+  describe('/GET ALL BOOKS', () => {
+
+    test('it should GET all the books', async () => {
+      await request(app).get('/api/books')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200);
+    })
+  })
+
+  /*
+    * Test the / GET /: id route
+  */
+
+
 
 
 
