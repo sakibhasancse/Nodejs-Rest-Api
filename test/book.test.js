@@ -1,4 +1,3 @@
-const { server, request } = require('./testConfig')
 
 import app from '../app'
 import Book from '../src/models/book'
@@ -25,6 +24,7 @@ describe('Book Test', () => {
 
   // Prepare data for testings
   const testData = {
+    "_id": "6009c90d498eb2e23180c611",
     "name": "Test Book Name",
     "authors": "5fc8dcd114d0523b984c08d5",
     "publisher": "Test Publisher"
@@ -89,7 +89,33 @@ describe('Book Test', () => {
 
 
 
+  /*
+    * Test the /patch/:id route
+    */
+
+  describe('/PATCH Book Update', () => {
+    test('it should success update  book', async () => {
+      await request(app)
+        .patch('/api/book/' + testData._id)
+        .send(testData)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+    })
+  })
+
+  /*
+ * Test the /delete/:id route
+ */
 
 
+  describe('/DELETE Book delete', () => {
+    test('it should  delete this  book', async () => {
+      await request(app)
+        .delete('/api/book/' + testData._id)
+        .send(testData)
+        .expect(200)
+    })
+  })
 
 })

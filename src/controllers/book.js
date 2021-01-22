@@ -16,7 +16,7 @@ import { validationResult } from 'express-validator'
 
 
 export const createBook = async (req, res) => {
-    const { name, authors, publisher } = req.body
+    const body = req.body
     try {
         const errors = validationResult(req)
 
@@ -24,7 +24,7 @@ export const createBook = async (req, res) => {
             return validationErrorWithData(res, 'Validation error', errors.array())
         }
 
-        const newBook = new Book({ name, authors, publisher })
+        const newBook = new Book(body)
         await newBook.save((err, book) => {
             if (err) {
 
