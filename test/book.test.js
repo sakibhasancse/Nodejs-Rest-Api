@@ -77,6 +77,15 @@ describe('Book Test', () => {
     * Test the / GET /: id route
   */
 
+  describe("/GET/:id book", () => {
+    test("it should GET the book", () => {
+      request(app)
+        .get("/api/book/" + testData._id)
+        .expect(200)
+    });
+  });
+
+
 
 
 
