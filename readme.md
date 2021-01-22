@@ -1,29 +1,116 @@
-# NodeJs - API end points
-NodeJs - API end points
+# NodeJs & Mongodb - API end points
+NodeJs & Mongodb - API end points
 
-## Clone The Project
-- You can either use your git commands to clone the project or you can simple download the whole Project
+## Getting started
 
-## Installing the Packages
-- To install all the dependecies go to folder
+
+This is a basic API skeleton written in JavaScript ES6. Very useful to building a RESTful web APIs 
+
+
+This project will run on **NodeJs** using **MongoDB** as database. I had tried to maintain the code structure easy as any beginner can also adopt the flow and start building an API. Project is open for suggestions, Bug reports and pull requests.
+]
+## Features
+
+
+-   Pre-defined response structures with proper status codes.
+-   Included CORS.
+-    **Book** example with **CRUD** operations.
+-   Validations added.
+-   Included API collection for Postman.
+-   Light-weight project.
+-   Test cases with [Mocha](https://mochajs.org/) and [Jest](https://www.jestjs.com/).
+
+
+## Software Requirements
+
+-   Node.js **15+**
+
+
+## How to install
+
+### Using Git (recommended)
+
+1.  Clone the project from github. Change "myproject" to your project name.
+
+```bash
+git clone https://github.com/SakibHasanCse/Nodejs-Rest-Api.git ./myproject
 ```
+
+### Using manual download ZIP
+
+1.  Download repository
+2.  Uncompress to your desired directory
+
+### Install npm dependencies after installing (Git or manual download)
+
+```bash
+cd myproject
 npm install || yarn add
+
 ```
 
+### Setting up environments
 
-## Available Scripts
+1.  You will find a file named `congig/config.env` on root directory of project.
 
-In the project directory, you can run:
+## Project  structure
+```sh
+.
+├── app.js
+├── package.json
+├── bin
+│   └── www
+├── controllers
+│   └── Book.js
+├── models
+│   ├── Book.js
+├── routes
+│   └── book.js
+├── helpers
+│   ├── apiResponse.js
+└── test
+    ├── testConfig.js
+    └── book.test.js
+```
+## How to run
 
-### `npm start`   || 
-### `yarn start`
+### Running  API server locally
+
+```bash
+npm run dev
+```
+
+You will know server is running by checking the output of the command `npm run dev`
+
+```bash
+Connected to mongodb:YOUR_DB_CONNECTION_STRING
+App is running ...
+
+Press CTRL + C to stop the process.
+```
+**Note:**  `YOUR_DB_CONNECTION_STRING` will be your MongoDB connection string.
 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Tests
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Running  Test Cases
 
+```bash
+npm test
+```
 
+You can set custom command for test at `package.json` file inside `scripts` property. You can also change timeout for each assertion with `--timeout` parameter of mocha command.
 
+### Creating new tests
+
+If you need to add more test cases to the project just create a new file in `/test/` and run the command.
+
+You can set custom rules for eslint in `.eslintrc.json` file, Added at project root.
+
+## Bugs or improvements
+
+Every project needs improvements, Feel free to report any bugs or improvements. Pull requests are always welcome.
+
+## License
+
+This project is open-sourced software licensed under the MIT License. See the LICENSE file for more information.
