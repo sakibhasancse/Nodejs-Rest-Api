@@ -15,8 +15,7 @@ This project will run on **NodeJs** using **MongoDB** as database. I had tried t
 -   Pre-defined response structures with proper status codes.
 -   Included CORS.
 -    **Book** example with **CRUD** operations.
--   Validations added.
--   Included API collection for Postman.
+-   Included API collection for Postman. [LINK](https://documenter.getpostman.com/view/10778944/TW6tKUv9)
 -   Light-weight project.
 -   Test cases with [Mocha](https://mochajs.org/) and [Jest](https://www.jestjs.com/).
 
